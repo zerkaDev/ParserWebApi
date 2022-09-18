@@ -1,0 +1,5 @@
+docker-compose.dcproj
+docker-compose.dcproj.user
+docker-compose.override.yml
+docker-compose.yml
+.dockerignore

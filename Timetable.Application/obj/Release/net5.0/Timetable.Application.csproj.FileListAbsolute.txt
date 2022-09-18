@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\bin\Release\net5.0\Timetable.Application.deps.json
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\bin\Release\net5.0\Timetable.Application.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\bin\Release\net5.0\ref\Timetable.Application.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\bin\Release\net5.0\Timetable.Application.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\bin\Release\net5.0\Timetable.Domain.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\bin\Release\net5.0\Timetable.Domain.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.AssemblyInfo.cs
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.csproj.CopyComplete
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\ref\Timetable.Application.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Application\obj\Release\net5.0\Timetable.Application.pdb

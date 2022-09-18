@@ -1,0 +1,17 @@
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Persistance.deps.json
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Persistance.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\ref\Timetable.Persistance.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Persistance.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Application.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Domain.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Application.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Domain.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.AssemblyInfo.cs
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.csproj.CopyComplete
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\ref\Timetable.Persistance.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.pdb

@@ -17,15 +17,17 @@ namespace Timetable.Domain.ExtensionMethods
             var day5 = value.OneDayTimetables?.FirstOrDefault(e => e.Day == "Пятница");
             var day6 = value.OneDayTimetables?.FirstOrDefault(e => e.Day == "Суббота");
 
-            List<OneDayTimetable> days = new List<OneDayTimetable>();
-            days.Add(null);
-            days.Add(day1);
-            days.Add(day2);
-            days.Add(day3);
-            days.Add(day4);
-            days.Add(day5);
-            days.Add(day6);
-            days.Add(null);
+            List<OneDayTimetable> days = new List<OneDayTimetable>
+            {
+                null,
+                day1,
+                day2,
+                day3,
+                day4,
+                day5,
+                day6,
+                null
+            };
 
             days.RemoveAll(p => p == null);
 

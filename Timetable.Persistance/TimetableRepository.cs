@@ -19,14 +19,14 @@ namespace Timetable.Persistance
         {
             Context = context;
         }
-        public async Task<IEnumerable<Group>> GetAllGroups()
+        public Task<IEnumerable<Group>> GetAllGroups()
         {
-            return Context.Groups; 
+            return Task.FromResult(Context.Groups as IEnumerable<Group>);
         }
 
-        public async Task<IEnumerable<Institute>> GetAllInstitutes()
+        public Task<IEnumerable<Institute>> GetAllInstitutes()
         {
-            return Context.Institutes;
+            return Task.FromResult(Context.Institutes as IEnumerable<Institute>);
         }
 
         public async Task<Group> GetGroup(string groupName)

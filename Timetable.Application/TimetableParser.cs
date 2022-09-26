@@ -24,7 +24,7 @@ namespace Timetable.Application
             UriBuilder = uriBuilder;
             HtmlWeb = web;
         }
-        public async Task<List<Lesson>> GetLessonsOfThisDay(int fak_id, int kurs, string groupName, bool IsOddWeek, int dayNumber)
+        public Task<List<Lesson>> GetLessonsOfThisDay(int fak_id, int kurs, string groupName, bool IsOddWeek, int dayNumber)
         {
             var lessonsOfThisDay = new List<Lesson>();
 
@@ -43,7 +43,7 @@ namespace Timetable.Application
 
             var dayDiv = doc.DocumentNode.SelectSingleNode(xpath);
 
-            foreach (var lesson in dayDiv.ChildNodes.Where(c => c.Name == "div"))
+             foreach (var lesson in dayDiv.ChildNodes.Where(c => c.Name == "div"))
             {
                 var fullLessonName = RecursiveChildFinder(lesson);
 
@@ -98,7 +98,7 @@ namespace Timetable.Application
                 });
             }
 
-            return lessonsOfThisDay;
+            return Task.FromResult(lessonsOfThisDay);
 
         }
         /// <summary>
@@ -109,7 +109,7 @@ namespace Timetable.Application
         /// <param name="groupName"></param>
         /// <param name="IsOddWeek">true: Odd(нечетная) false: Even(четная)</param>
         /// <returns>Список дней</returns>
-        public async Task<List<OneDayTimetable>> GetAllDaysOfWeek(int fak_id, int kurs, string groupName, bool IsOddWeek)
+        public Task<List<OneDayTimetable>> GetAllDaysOfWeek(int fak_id, int kurs, string groupName, bool IsOddWeek)
         {
             var daysOfWeek = new List<OneDayTimetable>();
 
@@ -137,9 +137,9 @@ namespace Timetable.Application
                 });
             }
 
-            return daysOfWeek;
+            return Task.FromResult(daysOfWeek);
         }
-        public async Task<List<Week>> GetAllWeeksOfGroup(int fak_id, int kurs, string groupName)
+        public Task<List<Week>> GetAllWeeksOfGroup(int fak_id, int kurs, string groupName)
         {
             var weeksOfThisGroup = new List<Week>();
 
@@ -153,7 +153,7 @@ namespace Timetable.Application
 
             if (oddWeek == null && evenWeek == null)
             {
-                return weeksOfThisGroup;
+                return Task.FromResult(weeksOfThisGroup);
             }
             if (oddWeek != null)
             {
@@ -169,11 +169,11 @@ namespace Timetable.Application
                     Parity = RecursiveChildFinder(evenWeek)
                 });
             }
-            return weeksOfThisGroup;
+            return Task.FromResult(weeksOfThisGroup);
         }
 
 
-        public async Task<List<Group>> GetAllGroupsOfCourse(int fak_id, int kurs)  // мб использовать params?
+        public Task<List<Group>> GetAllGroupsOfCourse(int fak_id, int kurs)  
         {
             var groupsOfThisInstitute = new List<Group>();
 
@@ -191,10 +191,10 @@ namespace Timetable.Application
                 });
             }
 
-            return groupsOfThisInstitute;
+            return Task.FromResult(groupsOfThisInstitute);
         }
 
-        public async Task<List<Course>> GetAllCoursesOfInstitute(int fak_id)
+        public Task<List<Course>> GetAllCoursesOfInstitute(int fak_id)
         {
             var courses = new List<Course>();
 
@@ -211,10 +211,10 @@ namespace Timetable.Application
                 });
             }
 
-            return courses;
+            return Task.FromResult(courses);
         }
 
-        public async Task<List<Institute>> GetAllInstitutes()
+        public Task<List<Institute>> GetAllInstitutes()
         {
             var institutes = new List<Institute>();
 
@@ -232,31 +232,25 @@ namespace Timetable.Application
                     Id = int.Parse(institute.Attributes["value"].Value)
                 });
             }
-            return institutes;
+            return Task.FromResult(institutes);
         }
 
 
 
-
-
-
-
-
-
-        public int GetSelectedFacWithId(HtmlDocument doc)
-        {
-            var a = doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_fak_id']/option[@selected='']");
-            var b = a.InnerText;
-            return int.Parse(a.Attributes["value"].Value);
-        }
-        private int GetSelectedCourse(HtmlDocument doc)
-        {
-            return int.Parse(doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_kurs']/option[@selected='']").InnerText);
-        }
-        private string GetSelectedGroup(HtmlDocument doc)
-        {
-            return doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_gr']/option[@selected='']").InnerText;
-        }
+        //private int GetSelectedFacWithId(HtmlDocument doc)
+        //{
+        //    var a = doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_fak_id']/option[@selected='']");
+        //    var b = a.InnerText;
+        //    return int.Parse(a.Attributes["value"].Value);
+        //}
+        //private int GetSelectedCourse(HtmlDocument doc)
+        //{
+        //    return int.Parse(doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_kurs']/option[@selected='']").InnerText);
+        //}
+        //private string GetSelectedGroup(HtmlDocument doc)
+        //{
+        //    return doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_gr']/option[@selected='']").InnerText;
+        //}
 
 
         private string RecursiveChildFinder(HtmlNode child)

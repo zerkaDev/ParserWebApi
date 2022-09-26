@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Timetable.Application.Interfaces;
 using Timetable.Domain;
+using Timetable.Domain.Comparers;
 
 namespace Timetable.Application
 {
@@ -40,30 +41,27 @@ namespace Timetable.Application
                             group.Weeks.AddRange(allWeeks);
                             foreach (Week week in allWeeks)
                             {
+                                List<OneDayTimetable> daysOndWeek = new();
                                 switch (week.Parity)
                                 {
                                     case "Нечетная неделя":
-                                        var daysOnOddWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, true);
-                                        week.OneDayTimetables = new List<OneDayTimetable>();
-                                        week.OneDayTimetables.AddRange(daysOnOddWeek);
-                                        foreach (OneDayTimetable day in daysOnOddWeek)
-                                        {
-                                            var lessonsOnDay = await Parser.GetLessonsOfThisDay(institute.Id, course.Number, group.Name, true, await ConvertStrDayToIntDay(day.Day));
-                                            day.Lessons = new List<Lesson>();
-                                            day.Lessons.AddRange(lessonsOnDay);
-                                        }
+                                        daysOndWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, true);
                                         break;
                                     case "Четная неделя":
-                                        var daysOnEvenWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, false);
-                                        week.OneDayTimetables = new List<OneDayTimetable>();
-                                        week.OneDayTimetables.AddRange(daysOnEvenWeek);
-                                        foreach (OneDayTimetable day in daysOnEvenWeek)
-                                        {
-                                            var lessonsOnDay = Parser.GetLessonsOfThisDay(institute.Id, course.Number, group.Name, false, await ConvertStrDayToIntDay(day.Day));
-                                            day.Lessons = new List<Lesson>();
-                                            day.Lessons.AddRange(lessonsOnDay.Result);
-                                        }
+                                        daysOndWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, false);
                                         break;
+                                }
+                                if (daysOndWeek.Count > 0)
+                                {
+                                    week.OneDayTimetables = new List<OneDayTimetable>();
+                                    week.OneDayTimetables.AddRange(daysOndWeek);
+                                    foreach (OneDayTimetable day in daysOndWeek)
+                                    {
+                                        var lessonsOnDay = await Parser.GetLessonsOfThisDay(institute.Id, course.Number, group.Name, true, await ConvertStrDayToIntDay(day.Day));
+                                        lessonsOnDay.Sort(new LessonComparer());
+                                        day.Lessons = new List<Lesson>();
+                                        day.Lessons.AddRange(lessonsOnDay);
+                                    }
                                 }
                             }
                         }
@@ -81,8 +79,7 @@ namespace Timetable.Application
 
             await Context.SaveChangesAsync(CancellationToken.None);
         }
-
-        private async Task<int> ConvertStrDayToIntDay(string day)
+        private static Task<int> ConvertStrDayToIntDay(string day)
         {
             var daiInt = 0;
             switch (day)
@@ -106,7 +103,7 @@ namespace Timetable.Application
                     daiInt = 6;
                     break;
             }
-            return daiInt;
+            return Task.FromResult(daiInt);
         }
     }
 }

@@ -36,22 +36,6 @@ namespace Timetable.Domain
         /// Аудитория
         /// </summary>
         public string Audience { get; set; }
-        /// <summary>
-        /// Период обучения по данному предмету (с 1 по 18 неделю)
-        /// </summary>
-        public string Period { get; set; }
-        /// <summary>
-        /// В лекционном потоке или нет
-        /// </summary>
-        public bool IsLectureStream { get; set; } = true;
-        /// <summary>
-        /// Примечание
-        /// </summary>
-        public string Remark { get; set; }
-        /// <summary>
-        /// Процент от группы
-        /// </summary>
-        public string PercentOfGroup { get; set; }
         public int OneDayTimetableId { get; set; }
         public OneDayTimetable OneDayTimetable { get; set; }
     }

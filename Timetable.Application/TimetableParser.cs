@@ -87,12 +87,8 @@ namespace Timetable.Application
                 {
                     Teacher = teacher,
                     Audience = audience,
-                    Period = period,
-                    IsLectureStream = isLectureStream,
-                    PercentOfGroup = percentOfgroup,
                     Name = onlyName,
                     Number = numberLesson,
-                    Remark = remark,
                     TypeOfLesson = typeLesson,
                     LessonDuration = stringTimeLesson
                 });

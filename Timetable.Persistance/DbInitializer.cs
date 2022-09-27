@@ -6,7 +6,7 @@ namespace Timetable.Persistance
     {
         public static void Initialize(ITimetableDbContext context)
         {
-            //context.Database.EnsureDeleted();!!!!!!!!!!!!!!!!!!!!
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
         }
     }

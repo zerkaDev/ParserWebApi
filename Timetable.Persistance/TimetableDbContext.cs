@@ -21,6 +21,7 @@ namespace Timetable.Persistance
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.ApplyConfiguration(new UniversityConfiguration());
             builder.ApplyConfiguration(new CourseConfiguration());
             builder.ApplyConfiguration(new GroupConfiguration());
             builder.ApplyConfiguration(new InstituteConfiguration());

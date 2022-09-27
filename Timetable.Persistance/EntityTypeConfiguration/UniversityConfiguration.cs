@@ -9,9 +9,9 @@ using Timetable.Domain;
 
 namespace Timetable.Persistance.EntityTypeConfiguration
 {
-    public class UniversityConfiguration : IEntityTypeConfiguration<University>
+    public class UniversityConfiguration : IEntityTypeConfiguration<Universities>
     {
-        public void Configure(EntityTypeBuilder<University> builder)
+        public void Configure(EntityTypeBuilder<Universities> builder)
         {
             builder.HasKey(k => k.Name);
             builder.HasMany(i => i.Institutes).WithOne(u => u.University);

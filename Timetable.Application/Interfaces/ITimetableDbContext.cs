@@ -13,6 +13,7 @@ namespace Timetable.Application.Interfaces
     public interface ITimetableDbContext
     {
         DatabaseFacade Database { get; }
+        DbSet<Universities> Universities { get; set; }
         DbSet<Course> Courses { get; set; }
         DbSet<Group> Groups { get; set; }
         DbSet<Week> Weeks { get; set; }

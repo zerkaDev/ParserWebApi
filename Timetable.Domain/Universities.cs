@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Timetable.Domain
 {
-    public class University
+    public class Universities
     {
         public string Name { get; set; }
         public List<Institute> Institutes { get; set; }

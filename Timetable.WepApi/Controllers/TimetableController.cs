@@ -12,7 +12,7 @@ namespace Timetable.WepApi.Controllers
     public class TimetableController : ControllerBase
     {
         ITimetableRepository Repo { get; }
-        public TimetableController(ITimetableRepository repo, ITimetableDbContext context)
+        public TimetableController(ITimetableRepository repo)
         {
             Repo = repo;
         }

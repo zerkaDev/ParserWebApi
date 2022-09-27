@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
-using Timetable.Application.Interfaces;
 using Timetable.Domain;
 using Timetable.Domain.Comparers;
 
@@ -11,56 +9,52 @@ namespace Timetable.Application
 {
     public class TimetableDbFiller
     {
-        ITimetableDbContext Context { get; }
         TimetableParser Parser { get; }
-        public TimetableDbFiller(ITimetableDbContext context)
+        public TimetableDbFiller()
         {
-            Context = context;
             Parser = new TimetableParser();
         }
-
-        public async Task RESHALA()
+        public async Task<Universities> RESHALA()
         {
+            Universities KubSTU = new() { Name = "Кубанский государственный технологический университет." };
             var allInst = await Parser.GetAllInstitutes();
+            KubSTU.Institutes = new List<Institute>(allInst);
             try
             {
                 foreach (Institute institute in allInst)
                 {
                     var allCourses = await Parser.GetAllCoursesOfInstitute(institute.Id);
-                    institute.Courses = new List<Course>();
-                    institute.Courses.AddRange(allCourses);
+                    institute.Courses = new List<Course>(allCourses);
                     foreach (Course course in allCourses)
                     {
                         var allGroups = await Parser.GetAllGroupsOfCourse(institute.Id, course.Number);
-                        course.Groups = new List<Group>();
-                        course.Groups.AddRange(allGroups);
+                        course.Groups = new List<Group>(allGroups);
                         foreach (Group group in allGroups)
                         {
                             var allWeeks = await Parser.GetAllWeeksOfGroup(institute.Id, course.Number, group.Name);
-                            group.Weeks = new List<Week>();
-                            group.Weeks.AddRange(allWeeks);
+                            group.Weeks = new List<Week>(allWeeks);
                             foreach (Week week in allWeeks)
                             {
                                 List<OneDayTimetable> daysOndWeek = new();
+                                bool IsOddWeek = false;
                                 switch (week.Parity)
                                 {
                                     case "Нечетная неделя":
-                                        daysOndWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, true);
+                                        IsOddWeek = true;
                                         break;
                                     case "Четная неделя":
-                                        daysOndWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, false);
+                                        IsOddWeek = false;
                                         break;
                                 }
+                                daysOndWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, IsOddWeek);
                                 if (daysOndWeek.Count > 0)
                                 {
-                                    week.OneDayTimetables = new List<OneDayTimetable>();
-                                    week.OneDayTimetables.AddRange(daysOndWeek);
+                                    week.OneDayTimetables = new List<OneDayTimetable>(daysOndWeek);
                                     foreach (OneDayTimetable day in daysOndWeek)
                                     {
-                                        var lessonsOnDay = await Parser.GetLessonsOfThisDay(institute.Id, course.Number, group.Name, true, await ConvertStrDayToIntDay(day.Day));
+                                        var lessonsOnDay = await Parser.GetLessonsOfThisDay(institute.Id, course.Number, group.Name, IsOddWeek, await ConvertStrDayToIntDay(day.Day));
                                         lessonsOnDay.Sort(new LessonComparer());
-                                        day.Lessons = new List<Lesson>();
-                                        day.Lessons.AddRange(lessonsOnDay);
+                                        day.Lessons = new List<Lesson>(lessonsOnDay);
                                     }
                                 }
                             }
@@ -75,9 +69,7 @@ namespace Timetable.Application
                     Debug.WriteLine(errInner); //this will call ToString() on the inner execption and get you message, stacktrace and you could perhaps drill down further into the inner exception of it if necessary 
                 }
             }
-            Context.Institutes.AddRange(allInst);
-
-            await Context.SaveChangesAsync(CancellationToken.None);
+            return KubSTU;
         }
         private static Task<int> ConvertStrDayToIntDay(string day)
         {

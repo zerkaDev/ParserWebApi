@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using Timetable.Application.Interfaces;
 using Timetable.Domain;
 using Timetable.Persistance.EntityTypeConfiguration;
@@ -14,6 +13,8 @@ namespace Timetable.Persistance
         public DbSet<OneDayTimetable> OneDayTimetables { get; set; }
         public DbSet<Institute> Institutes { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<Universities> Universities { get; set; }
+
         public TimetableDbContext(DbContextOptions<TimetableDbContext> options) 
             : base(options)
         {

@@ -62,3 +62,5 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timet
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\ref\Timetable.WepApi.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timetable.WepApi.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timetable.WepApi.genruntimeconfig.cache
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Serilog.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Serilog.Sinks.File.dll

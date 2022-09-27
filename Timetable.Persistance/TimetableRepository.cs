@@ -31,8 +31,6 @@ namespace Timetable.Persistance
 
         public async Task<Group> GetGroup(string groupName)
         {
-            //костыль
-            Context.Database.EnsureCreated();
             if (!Context.Institutes.Any())
             {
                 TimetableDbFiller f = new TimetableDbFiller(Context);

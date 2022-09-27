@@ -60,39 +60,14 @@ namespace Timetable.Application
 
                 var teacher = divWhereInfoAboutLesson.ElementAt(0).InnerText.Replace("Преподаватель: ", "");
                 var audience = divWhereInfoAboutLesson.ElementAt(1).InnerText.Replace("Аудитория: ", "");
-                var period = divWhereInfoAboutLesson.ElementAt(2).InnerText.Replace("Период: ", "");
-                var remark = divWhereInfoAboutLesson.Last().InnerText.Replace("Примечание: ", "");
-                bool isLectureStream = false;
-                var percentOfgroup = "100%";
-
-                var nonObviousElem = divWhereInfoAboutLesson.ElementAt(3);
-                if (divWhereInfoAboutLesson.Count() > 4)
-                {
-                    if (nonObviousElem.InnerText.Contains("лекц"))
-                    {
-                        if (nonObviousElem.InnerText.Contains("Да"))
-                            isLectureStream = true;
-                        else isLectureStream = false;
-                    }
-                    else
-                    {
-                        percentOfgroup = nonObviousElem.InnerText.Substring
-                                (nonObviousElem.InnerText.LastIndexOf(':') + 2, nonObviousElem.InnerText.Length - nonObviousElem.InnerText.LastIndexOf(':') - 2);
-                    }
-                }
 
                 if (teacher == "  ") teacher = null;
-                if (remark == "") remark = null;
                 lessonsOfThisDay.Add(new Lesson()
                 {
                     Teacher = teacher,
                     Audience = audience,
-                    Period = period,
-                    IsLectureStream = isLectureStream,
-                    PercentOfGroup = percentOfgroup,
                     Name = onlyName,
                     Number = numberLesson,
-                    Remark = remark,
                     TypeOfLesson = typeLesson,
                     LessonDuration = stringTimeLesson
                 });

@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Timetable.Application;
 using Timetable.Application.Interfaces;
 using Timetable.Domain;
 using Timetable.Domain.ExtensionMethods;
@@ -31,11 +27,6 @@ namespace Timetable.Persistance
 
         public async Task<Group> GetGroup(string groupName)
         {
-            if (!Context.Institutes.Any())
-            {
-                TimetableDbFiller f = new TimetableDbFiller(Context);
-                await f.RESHALA();
-            }
             var group = await Context.Groups.Include(e => e.Weeks)
                 .ThenInclude(e => e.OneDayTimetables)
                 .ThenInclude(e => e.Lessons)

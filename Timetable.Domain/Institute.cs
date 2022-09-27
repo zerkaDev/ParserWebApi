@@ -15,5 +15,6 @@ namespace Timetable.Domain
         /// </summary>
         public string Name { get; set; }
         public List<Course> Courses { get; set; }
+        public Universities University { get; set; }
     }
 }

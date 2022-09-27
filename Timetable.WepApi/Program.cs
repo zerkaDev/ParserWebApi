@@ -29,7 +29,6 @@ namespace Timetable.WepApi
             {
                 Log.Fatal(exception, "An error occurred while app initialization");
             }
-
             host.Run();
         }
 

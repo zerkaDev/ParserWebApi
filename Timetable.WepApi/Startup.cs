@@ -11,7 +11,10 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Timetable.Application;
+using Timetable.Application.Common.Mappings;
 using Timetable.Application.Interfaces;
 using Timetable.Persistance;
 
@@ -29,6 +32,13 @@ namespace Timetable.WepApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(config =>
+            {
+                config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
+                config.AddProfile(new AssemblyMappingProfile(typeof(ITimetableDbContext).Assembly));
+            });
+
+            services.AddApplication();
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
             services.AddScoped<ITimetableRepository, TimetableRepository>();
             services.AddDbContext<ITimetableDbContext, TimetableDbContext>(options =>

@@ -64,3 +64,12 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timet
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timetable.WepApi.genruntimeconfig.cache
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Serilog.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Serilog.Sinks.File.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\MediatR.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\MediatR.Contracts.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll

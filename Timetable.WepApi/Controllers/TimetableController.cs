@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Timetable.Application.Groups.Queries.GetGroupList;
 using Timetable.Application.Interfaces;
 using Timetable.Application.Queries.Groups;
 using Timetable.Domain;
@@ -18,8 +20,15 @@ namespace Timetable.WepApi.Controllers
             Repo = repo;
             _mediator = mediator;
         }
+        [HttpGet("groups/{symbols}")]
+        public async Task<ActionResult<GroupsListStartWithVm>> GetGroupsStartingWith(string symbols)
+        {
+            var query = new GetGroupsListStartWith() { Symbols = symbols.ToUpper() };
+            var vm = await _mediator.Send(query);
+            return new JsonResult(vm){ StatusCode = Ok().StatusCode };
+        }
         [HttpGet("{groupName}")]
-        public async Task<ActionResult<Group>> Get(string groupName)
+        public async Task<ActionResult<GroupVm>> GetGroupTt(string groupName)
         {
             //if (groupName == "рома")
             //{

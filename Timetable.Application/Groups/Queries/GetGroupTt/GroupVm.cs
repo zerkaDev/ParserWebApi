@@ -17,9 +17,9 @@ namespace Timetable.Application.Queries.Groups
         {
             profile.CreateMap<Group, GroupVm>()
                 .ForMember(groupVm => groupVm.Name,
-                opt => opt.MapFrom(note => note.Name))
+                opt => opt.MapFrom(group => group.Name))
                 .ForMember(groupVm => groupVm.Weeks,
-                opt => opt.MapFrom(note => note.Weeks));
+                opt => opt.MapFrom(group => group.Weeks));
         }
 
     }

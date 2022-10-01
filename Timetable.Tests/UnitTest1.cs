@@ -1,6 +1,9 @@
 using HtmlAgilityPack;
 using NUnit.Framework;
+using System.Collections.Generic;
 using Timetable.Application;
+using Timetable.Domain;
+using Timetable.Domain.Comparers;
 
 namespace Timetable.Tests
 {
@@ -28,6 +31,32 @@ namespace Timetable.Tests
 
             //Assert.AreEqual(tp.GetLessonsOfThisDay(516, 3, "20-ÊÁ-ÏÈ2", true, 3).Result.Count, 3);
             //Assert.AreEqual(tp.GetLessonsOfThisDay(516, 3, "20-ÊÁ-ÏÈ2", true, 2).Count, 4);
+
+            var unsortList = new List<Lesson>()
+            {
+                new Lesson()
+                {
+                    Id = 1,
+                    Number = "7 ןאנא"
+                },
+                new Lesson()
+                {
+                    Id = 2,
+                    Number = "6 ןאנא"
+                },new Lesson()
+                {
+                    Id=3,
+                    Number = "5 ןאנא"
+                },new Lesson()
+                {
+                    Id=4,
+                    Number = "4 ןאנא"
+                }
+            };
+            var unsortList2 = new List<Lesson>(unsortList);
+            unsortList.Sort(new LessonComparer());
+            Assert.That(unsortList, Is.Not.EqualTo(unsortList2));
+
 
         }
     }

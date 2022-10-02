@@ -9,7 +9,7 @@ using Timetable.Domain;
 
 namespace Timetable.Application.Groups.Queries.GetGroupList
 {
-    public class GroupsListStartWithVm : IMapWith<Group>
+    public class GroupsListStartWithVm
     {
         public IList<GroupLookupDto> Groups { get; set; }
     }

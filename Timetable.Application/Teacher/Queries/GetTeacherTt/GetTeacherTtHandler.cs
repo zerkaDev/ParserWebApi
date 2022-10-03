@@ -35,15 +35,20 @@ namespace Timetable.Application.Teacher.Queries.GetTeacherTt
             // Now, because we arent have a teacher model, we need to compose a timetable for this one [teacher have 2 weeks]
             // Не могу разделить метод, так как нельзя создать метод, принимающий IGrouping<'a,.> ;(
 
-            var oddWeek = new Week() { Parity = "Нечетная неделя", OneDayTimetables = new List<OneDayTimetable>() };
-            var evenWeek = new Week() { Parity = "Четная неделя", OneDayTimetables = new List<OneDayTimetable>() };
+            //var oddWeek = new Week() { Parity = "Нечетная неделя", OneDayTimetables = new List<OneDayTimetable>() };
+            //var evenWeek = new Week() { Parity = "Четная неделя", OneDayTimetables = new List<OneDayTimetable>() };
 
             var timetable = new List<Week>();
             #region Bad
             foreach (var groupItem in teacherLessons)
             {
                 OneDayTimetable day = new OneDayTimetable() { Day = groupItem.Key.Day, Lessons = new List<Lesson>() };
-                if (groupItem.Key.Parity == oddWeek.Parity)
+
+                var week = timetable.FirstOrDefault(w => w.Parity == groupItem.Key.Parity);
+
+                if (week == null) { week = new Week() { Parity = groupItem.Key.Parity, OneDayTimetables = new List<OneDayTimetable>() }; timetable.Add(week); }
+
+                if (groupItem.Key.Parity == week.Parity)
                 {
                     foreach (var lesson in groupItem)
                     {
@@ -51,24 +56,27 @@ namespace Timetable.Application.Teacher.Queries.GetTeacherTt
                         day.Lessons.Add(lesson);
                     }
                     day.Lessons.Sort(new LessonComparer());
-                    oddWeek.OneDayTimetables.Add(day);
+                    week.OneDayTimetables.Add(day);
                 }
-                if (groupItem.Key.Parity == evenWeek.Parity)
-                {
-                    foreach (var lesson in groupItem)
-                    {
-                        lesson.OneDayTimetable = null;
-                        day.Lessons.Add(lesson);
-                    }
-                    day.Lessons.Sort(new LessonComparer());
-                    evenWeek.OneDayTimetables.Add(day);
-                }
+                //if (groupItem.Key.Parity == evenWeek.Parity)
+                //{
+                //    foreach (var lesson in groupItem)
+                //    {
+                //        lesson.OneDayTimetable = null;
+                //        day.Lessons.Add(lesson);
+                //    }
+                //    day.Lessons.Sort(new LessonComparer());
+                //    evenWeek.OneDayTimetables.Add(day);
+                //}
             }
 
-            oddWeek.OrderByDay();
-            evenWeek.OrderByDay();
-            timetable.Add(oddWeek);
-            timetable.Add(evenWeek);
+            foreach (var week in timetable)
+            {
+                week.OrderByDay();
+            }
+
+            //timetable.Add(oddWeek);
+            //timetable.Add(evenWeek);
             #endregion
 
             var finalTt = timetable

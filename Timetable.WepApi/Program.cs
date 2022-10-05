@@ -6,6 +6,7 @@ using Serilog.Events;
 using System;
 using Timetable.Application.Interfaces;
 using Timetable.Persistance;
+using Timetable.Persistance.Jobs;
 
 namespace Timetable.WepApi
 {
@@ -20,15 +21,23 @@ namespace Timetable.WepApi
                 .CreateLogger();
 
             var host = CreateHostBuilder(args).Build();
-            try
+
+            using(var scope = host.Services.CreateScope())
             {
-                var context = host.Services.CreateScope().ServiceProvider.GetRequiredService<ITimetableDbContext>();
-                DbInitializer.Initialize(context);
+                var service = scope.ServiceProvider;
+                var context = service.GetRequiredService<ITimetableDbContext>();
+                try
+                {
+                    DbInitializer.Initialize(context);
+                    TimetableScheduler.Start(service);
+                }
+                catch (Exception exception)
+                {
+                    Log.Fatal(exception, "An error occurred while app initialization");
+                }
             }
-            catch (Exception exception)
-            {
-                Log.Fatal(exception, "An error occurred while app initialization");
-            }
+
+                
             host.Run();
         }
 

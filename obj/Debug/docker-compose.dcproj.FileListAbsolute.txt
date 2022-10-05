@@ -21,3 +21,14 @@ C:\Users\User\source\repos\Timetable.Api\bin\Debug\Timetable.Persistance.pdb
 C:\Users\User\source\repos\Timetable.Api\obj\Debug\docker-compose.dcproj.AssemblyReference.cache
 C:\Users\User\source\repos\Timetable.Api\obj\Debug\docker-compose.dcproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\Timetable.Api\obj\Debug\docker-compose.dcproj.CopyComplete
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\AutoMapper.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\MediatR.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\Serilog.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\Serilog.Sinks.File.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\MediatR.Contracts.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\Microsoft.Extensions.Options.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\Microsoft.Extensions.Primitives.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll

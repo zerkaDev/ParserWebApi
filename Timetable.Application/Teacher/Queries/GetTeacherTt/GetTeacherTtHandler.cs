@@ -33,13 +33,9 @@ namespace Timetable.Application.Teacher.Queries.GetTeacherTt
                     new { g.OneDayTimetable.Day, g.OneDayTimetable.Week.Parity });
 
             // Now, because we arent have a teacher model, we need to compose a timetable for this one [teacher have 2 weeks]
-            // Не могу разделить метод, так как нельзя создать метод, принимающий IGrouping<'a,.> ;(
-
-            //var oddWeek = new Week() { Parity = "Нечетная неделя", OneDayTimetables = new List<OneDayTimetable>() };
-            //var evenWeek = new Week() { Parity = "Четная неделя", OneDayTimetables = new List<OneDayTimetable>() };
+            // Нельзя вынести в отедлньый метод так как 1 параметр это анонимный тип
 
             var timetable = new List<Week>();
-            #region Bad
             foreach (var groupItem in teacherLessons)
             {
                 OneDayTimetable day = new OneDayTimetable() { Day = groupItem.Key.Day, Lessons = new List<Lesson>() };
@@ -58,26 +54,10 @@ namespace Timetable.Application.Teacher.Queries.GetTeacherTt
                     day.Lessons.Sort(new LessonComparer());
                     week.OneDayTimetables.Add(day);
                 }
-                //if (groupItem.Key.Parity == evenWeek.Parity)
-                //{
-                //    foreach (var lesson in groupItem)
-                //    {
-                //        lesson.OneDayTimetable = null;
-                //        day.Lessons.Add(lesson);
-                //    }
-                //    day.Lessons.Sort(new LessonComparer());
-                //    evenWeek.OneDayTimetables.Add(day);
-                //}
             }
 
             foreach (var week in timetable)
-            {
                 week.OrderByDay();
-            }
-
-            //timetable.Add(oddWeek);
-            //timetable.Add(evenWeek);
-            #endregion
 
             var finalTt = timetable
                 .AsQueryable()

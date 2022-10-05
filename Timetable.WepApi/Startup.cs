@@ -17,6 +17,7 @@ using Timetable.Application;
 using Timetable.Application.Common.Mappings;
 using Timetable.Application.Interfaces;
 using Timetable.Persistance;
+using Timetable.Persistance.Jobs;
 
 namespace Timetable.WepApi
 {
@@ -43,6 +44,8 @@ namespace Timetable.WepApi
             services.AddScoped<ITimetableRepository, TimetableRepository>();
             services.AddDbContext<ITimetableDbContext, TimetableDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MsSqlServerConnectionString")));
+            services.AddTransient<JobFactory>();
+            services.AddScoped<TimetableUpdater>();
             //services.AddSwaggerGen(c =>
             //{
             //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Timetable.WepApi", Version = "v1" });

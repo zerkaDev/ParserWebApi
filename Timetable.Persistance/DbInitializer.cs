@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Timetable.Application;
 using Timetable.Application.Interfaces;
 
@@ -13,11 +14,15 @@ namespace Timetable.Persistance
 
             if (!context.Universities.Any())
             {
-                TimetableDbFiller filler = new TimetableDbFiller();
-                var univ = await filler.RESHALA();
-                context.Universities.Add(univ);
-                await context.SaveChangesAsync(System.Threading.CancellationToken.None);
+                await AddTimetable(context);
             }
+        }
+        public async static Task AddTimetable(ITimetableDbContext context)
+        {
+            TimetableDbFiller filler = new TimetableDbFiller();
+            var univ = await filler.RESHALA();
+            context.Universities.Add(univ);
+            await context.SaveChangesAsync(System.Threading.CancellationToken.None);
         }
     }
 }

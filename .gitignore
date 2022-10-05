@@ -406,6 +406,9 @@ docker-compose.yml
 # JetBrains Rider
 *.sln.iml
 
+# Logs
+TimetableWebApiLog-*.txt
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 

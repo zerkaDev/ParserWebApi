@@ -32,3 +32,6 @@ C:\Users\User\source\repos\Timetable.Api\bin\Debug\MediatR.Extensions.Microsoft.
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\Microsoft.Extensions.Options.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\Microsoft.Extensions.Primitives.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\Quartz.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\System.Configuration.ConfigurationManager.dll
+C:\Users\User\source\repos\Timetable.Api\bin\Debug\System.Security.Cryptography.ProtectedData.dll

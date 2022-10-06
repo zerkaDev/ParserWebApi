@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using System;
+using System.Threading;
 using Timetable.Application.Interfaces;
 using Timetable.Persistance;
 using Timetable.Persistance.Jobs;
@@ -29,6 +30,7 @@ namespace Timetable.WepApi
                 try
                 {
                     DbInitializer.Initialize(context);
+                    Thread.Sleep(100000); // –ешить трабл с этим
                     TimetableScheduler.Start(service);
                 }
                 catch (Exception exception)

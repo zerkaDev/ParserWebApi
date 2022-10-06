@@ -23,7 +23,7 @@ namespace Timetable.Application
             {
                 foreach (Institute institute in allInst)
                 {
-                    var allCourses = await Parser.GetAllCoursesOfInstitute(institute.Id);
+                    var allCourses = await Parser.GetAllCoursesOfInstitute();
                     institute.Courses = new List<Course>(allCourses);
                     foreach (Course course in allCourses)
                     {
@@ -36,23 +36,13 @@ namespace Timetable.Application
                             foreach (Week week in allWeeks)
                             {
                                 List<OneDayTimetable> daysOndWeek = new();
-                                bool IsOddWeek = false;
-                                switch (week.Parity)
-                                {
-                                    case "Нечетная неделя":
-                                        IsOddWeek = true;
-                                        break;
-                                    case "Четная неделя":
-                                        IsOddWeek = false;
-                                        break;
-                                }
-                                daysOndWeek = await Parser.GetAllDaysOfWeek(institute.Id, course.Number, group.Name, IsOddWeek);
+                                daysOndWeek = await Parser.GetAllDaysOfWeek(week.Parity);
                                 if (daysOndWeek.Count > 0)
                                 {
                                     week.OneDayTimetables = new List<OneDayTimetable>(daysOndWeek);
                                     foreach (OneDayTimetable day in daysOndWeek)
                                     {
-                                        var lessonsOnDay = await Parser.GetLessonsOfThisDay(institute.Id, course.Number, group.Name, IsOddWeek, await ConvertStrDayToIntDay(day.Day));
+                                        var lessonsOnDay = await Parser.GetLessonsOfThisDay(week.Parity, await ConvertStrDayToIntDay(day.Day));
                                         lessonsOnDay.Sort(new LessonComparer());
                                         day.Lessons = new List<Lesson>(lessonsOnDay);
                                     }

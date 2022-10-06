@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Timetable.Application.Teacher.Queries.GetTeacherTt
+namespace Timetable.Application.Teachers.Queries.GetTeacherTt
 {
     public class TeacherTtVm
     {

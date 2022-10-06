@@ -15,7 +15,8 @@ namespace Timetable.Persistance.EntityTypeConfiguration
         {
             builder.HasKey(k => k.Id);
             builder.HasOne(g => g.OneDayTimetable).WithMany(l => l.Lessons);
-            
+            builder.HasOne(t => t.Teacher).WithMany(l => l.Lessons);
+            builder.Property(p => p.TeacherId).IsRequired(false);
         }
     }
 }

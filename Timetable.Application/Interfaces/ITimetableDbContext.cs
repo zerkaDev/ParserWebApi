@@ -20,6 +20,7 @@ namespace Timetable.Application.Interfaces
         DbSet<OneDayTimetable> OneDayTimetables { get; set; }
         DbSet<Institute> Institutes { get; set; }
         DbSet<Lesson> Lessons { get; set; }
+        DbSet<Teacher> Teachers { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

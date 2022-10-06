@@ -10,9 +10,9 @@ namespace Timetable.Domain
     {
         public int Id { get; set; }
         /// <summary>
-        /// Четность
+        /// Returns true if odd (нечетная), false if even (четная)
         /// </summary>
-        public string Parity { get; set; }
+        public bool Parity { get; set; }
         /// <summary>
         /// Расписание на неделю
         /// </summary>

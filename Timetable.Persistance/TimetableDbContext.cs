@@ -13,6 +13,7 @@ namespace Timetable.Persistance
         public DbSet<OneDayTimetable> OneDayTimetables { get; set; }
         public DbSet<Institute> Institutes { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Universities> Universities { get; set; }
 
         public TimetableDbContext(DbContextOptions<TimetableDbContext> options) 
@@ -27,6 +28,7 @@ namespace Timetable.Persistance
             builder.ApplyConfiguration(new GroupConfiguration());
             builder.ApplyConfiguration(new InstituteConfiguration());
             builder.ApplyConfiguration(new LessonConfiguration());
+            builder.ApplyConfiguration(new TeacherConfiguration());
             builder.ApplyConfiguration(new OneDayTimetableConfiguration());
             builder.ApplyConfiguration(new WeekConfiguration());
             base.OnModelCreating(builder);

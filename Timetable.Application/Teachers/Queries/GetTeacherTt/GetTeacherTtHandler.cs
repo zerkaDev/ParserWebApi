@@ -12,7 +12,7 @@ using Timetable.Domain.Comparers;
 using Timetable.Domain.DistinctComparers;
 using Timetable.Domain.ExtensionMethods;
 
-namespace Timetable.Application.Teacher.Queries.GetTeacherTt
+namespace Timetable.Application.Teachers.Queries.GetTeacherTt
 {
     public class GetTeacherTtHandler : IRequestHandler<GetTeacherTt, TeacherTtVm>
     {
@@ -26,7 +26,7 @@ namespace Timetable.Application.Teacher.Queries.GetTeacherTt
 
             var teacherLessons = _dbContext.Lessons.Include(e => e.OneDayTimetable)
                 .ThenInclude(e => e.Week)
-                .Where(name => name.Teacher == request.TeacherFullName)
+                .Where(name => name.Teacher.FullName == request.TeacherFullName)
                 .ToList()
                 .Distinct(new DistinctLessonComparer())
                 .GroupBy(g =>

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Timetable.Application.Common.Mappings;
 using Timetable.Domain;
 
-namespace Timetable.Application.Teacher.Queries.GetTeacherTt
+namespace Timetable.Application.Teachers.Queries.GetTeacherTt
 {
     public class TeacherLookupDto : IMapWith<Week>
     {
 
-        public string Parity { get; set; }
+        public bool Parity { get; set; }
         public List<OneDayTimetable> Days { get; set; }
         public void Mapping(Profile profile)
         {

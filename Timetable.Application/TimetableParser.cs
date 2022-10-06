@@ -7,31 +7,29 @@ using Timetable.Domain;
 
 namespace Timetable.Application
 {
-    /// <summary>
-    /// Parser from HTML to POCO. [KUBSTU onyly]!
-    /// </summary>
     public class TimetableParser
     {
         string BaseUrl { get; } = "https://elkaf.kubstu.ru/timetable/default/time-table-student-ofo";
         UriBuilder UriBuilder { get; }
         HtmlWeb HtmlWeb { get; }
+        HtmlDocument LastRequestDocument { get; set; }
+        // I think it is the normal way to store uniqal teacher in the parses-works time instead of use db context
+        List<Teacher> Teachers { get; set; }
 
         public TimetableParser()
         {
             UriBuilder uriBuilder = new UriBuilder(BaseUrl);
             var web = new HtmlWeb();
 
+            Teachers = new List<Teacher>();
             UriBuilder = uriBuilder;
             HtmlWeb = web;
         }
-        public Task<List<Lesson>> GetLessonsOfThisDay(int fak_id, int kurs, string groupName, bool IsOddWeek, int dayNumber)
+
+        // TODO : Разделяй и властвуй...
+        public Task<List<Lesson>> GetLessonsOfThisDay(bool IsOddWeek, int dayNumber)
         {
             var lessonsOfThisDay = new List<Lesson>();
-
-            groupName = groupName.ToUpper();
-
-            UriBuilder.Query = $"fak_id={fak_id}&kurs={kurs}&gr={groupName}";
-            var doc = HtmlWeb.Load(UriBuilder.Uri);
 
             string xpath = "";
 
@@ -41,9 +39,9 @@ namespace Timetable.Application
             }
             else xpath = $"//div[@id='collapse_n_2_d_{dayNumber}']/div";
 
-            var dayDiv = doc.DocumentNode.SelectSingleNode(xpath);
+            var dayDiv = LastRequestDocument.DocumentNode.SelectSingleNode(xpath);
 
-             foreach (var lesson in dayDiv.ChildNodes.Where(c => c.Name == "div"))
+            foreach (var lesson in dayDiv.ChildNodes.Where(c => c.Name == "div"))
             {
                 var fullLessonName = RecursiveChildFinder(lesson);
 
@@ -58,19 +56,36 @@ namespace Timetable.Application
                    .ChildNodes
                    .Where(c => c.Name == "p");
 
-                var teacher = divWhereInfoAboutLesson.ElementAt(0).InnerText.Replace("Преподаватель: ", "");
+                var teacherName = divWhereInfoAboutLesson.ElementAt(0).InnerText.Replace("Преподаватель: ", "");
                 var audience = divWhereInfoAboutLesson.ElementAt(1).InnerText.Replace("Аудитория: ", "");
 
-                if (teacher == "  ") teacher = null;
-                lessonsOfThisDay.Add(new Lesson()
+                Domain.Teacher teacherModel;
+
+                if (teacherName == "  ") 
+                    teacherModel = null;
+                else
                 {
-                    Teacher = teacher,
+                    teacherModel = Teachers.FirstOrDefault(t => t.FullName == teacherName);
+                    if (teacherModel is null) Teachers.Add(new Teacher()
+                    {
+                        FullName = teacherName,
+                        Lessons = new List<Lesson>()
+                    });
+                }
+
+                var oneLesson = new Lesson()
+                {
+                    Teacher = teacherModel,
                     Audience = audience,
                     Name = onlyName,
                     Number = numberLesson,
                     TypeOfLesson = typeLesson,
                     LessonDuration = stringTimeLesson
-                });
+                };
+
+                lessonsOfThisDay.Add(oneLesson);
+
+                if (teacherModel != null) teacherModel.Lessons.Add(oneLesson);
             }
 
             return Task.FromResult(lessonsOfThisDay);
@@ -84,24 +99,17 @@ namespace Timetable.Application
         /// <param name="groupName"></param>
         /// <param name="IsOddWeek">true: Odd(нечетная) false: Even(четная)</param>
         /// <returns>Список дней</returns>
-        public Task<List<OneDayTimetable>> GetAllDaysOfWeek(int fak_id, int kurs, string groupName, bool IsOddWeek)
+        public Task<List<OneDayTimetable>> GetAllDaysOfWeek(bool IsOddWeek)
         {
             var daysOfWeek = new List<OneDayTimetable>();
-
-            groupName = groupName.ToUpper();
-
-            UriBuilder.Query = $"fak_id={fak_id}&kurs={kurs}&gr={groupName}";
-            var doc = HtmlWeb.Load(UriBuilder.Uri);
 
             string xpath = "";
 
             if (IsOddWeek)
-            {
                 xpath = "//div[@id='collapse_n_1']/div";
-            }
             else xpath = "//div[@id='collapse_n_2']/div";
 
-            var WeekDiv = doc.DocumentNode.SelectSingleNode(xpath);
+            var WeekDiv = LastRequestDocument.DocumentNode.SelectSingleNode(xpath);
 
             foreach (var days in WeekDiv.ChildNodes.Where(d => d.Name is "div"))
             {
@@ -114,6 +122,7 @@ namespace Timetable.Application
 
             return Task.FromResult(daysOfWeek);
         }
+
         public Task<List<Week>> GetAllWeeksOfGroup(int fak_id, int kurs, string groupName)
         {
             var weeksOfThisGroup = new List<Week>();
@@ -122,33 +131,23 @@ namespace Timetable.Application
 
             UriBuilder.Query = $"fak_id={fak_id}&kurs={kurs}&gr={groupName}";
             var doc = HtmlWeb.Load(UriBuilder.Uri);
+            LastRequestDocument = doc;
 
-            var oddWeek = doc.DocumentNode.SelectSingleNode("//div[@id='heading_n_1']");
-            var evenWeek = doc.DocumentNode.SelectSingleNode("//div[@id='heading_n_2']");
-
-            if (oddWeek == null && evenWeek == null)
+            for (int i = 1; i <= 2; i++)
             {
+                var week = doc.DocumentNode.SelectSingleNode($"//div[@id='heading_n_{i}']");
+                if (week != null) weeksOfThisGroup.Add(new Week()
+                {
+                    Parity = RecursiveChildFinder(week) is "Нечетная неделя" ? true : false
+                });
+            }
+            if (weeksOfThisGroup.Count == 0)
                 return Task.FromResult(weeksOfThisGroup);
-            }
-            if (oddWeek != null)
-            {
-                weeksOfThisGroup.Add(new Week()
-                {
-                    Parity = RecursiveChildFinder(oddWeek)
-                });
-            }
-            if (evenWeek != null)
-            {
-                weeksOfThisGroup.Add(new Week()
-                {
-                    Parity = RecursiveChildFinder(evenWeek)
-                });
-            }
+
             return Task.FromResult(weeksOfThisGroup);
         }
 
-
-        public Task<List<Group>> GetAllGroupsOfCourse(int fak_id, int kurs)  
+        public Task<List<Group>> GetAllGroupsOfCourse(int fak_id, int kurs)
         {
             var groupsOfThisInstitute = new List<Group>();
 
@@ -169,7 +168,7 @@ namespace Timetable.Application
             return Task.FromResult(groupsOfThisInstitute);
         }
 
-        public Task<List<Course>> GetAllCoursesOfInstitute(int fak_id)
+        public Task<List<Course>> GetAllCoursesOfInstitute()
         {
             var courses = new List<Course>();
 
@@ -209,24 +208,6 @@ namespace Timetable.Application
             }
             return Task.FromResult(institutes);
         }
-
-
-
-        //private int GetSelectedFacWithId(HtmlDocument doc)
-        //{
-        //    var a = doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_fak_id']/option[@selected='']");
-        //    var b = a.InnerText;
-        //    return int.Parse(a.Attributes["value"].Value);
-        //}
-        //private int GetSelectedCourse(HtmlDocument doc)
-        //{
-        //    return int.Parse(doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_kurs']/option[@selected='']").InnerText);
-        //}
-        //private string GetSelectedGroup(HtmlDocument doc)
-        //{
-        //    return doc.DocumentNode.SelectSingleNode("//select[@id='nal_select_gr']/option[@selected='']").InnerText;
-        //}
-
 
         private string RecursiveChildFinder(HtmlNode child)
         {

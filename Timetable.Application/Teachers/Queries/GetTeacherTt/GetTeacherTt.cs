@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Timetable.Application.Teacher.Queries.GetTeacherTt
+namespace Timetable.Application.Teachers.Queries.GetTeacherTt
 {
     public class GetTeacherTt : IRequest<TeacherTtVm>
     {

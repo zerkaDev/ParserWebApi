@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Timetable.Domain
+﻿namespace Timetable.Domain
 {
     public class Lesson
     {
@@ -31,7 +25,8 @@ namespace Timetable.Domain
         /// <summary>
         /// Преподователь
         /// </summary>
-        public string Teacher { get; set; }
+        public int? TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
         /// <summary>
         /// Аудитория
         /// </summary>

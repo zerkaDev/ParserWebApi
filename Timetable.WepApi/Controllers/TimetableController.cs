@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 using Timetable.Application.Groups.Queries.GetGroupList;
 using Timetable.Application.Interfaces;
 using Timetable.Application.Queries.Groups;
-using Timetable.Application.Teacher.Queries.GetTeacherTt;
+using Timetable.Application.Teachers.Queries.GetTeacherList;
+using Timetable.Application.Teachers.Queries.GetTeacherTt;
 using Timetable.Domain;
 using Timetable.Domain.DistinctComparers;
 
@@ -23,9 +24,16 @@ namespace Timetable.WepApi.Controllers
             _mediator = mediator;
         }
         [HttpGet("groups/{symbols}")]
-        public async Task<ActionResult<GroupsListStartWithVm>> GetGroupsStartingWith(string symbols)
+        public async Task<JsonResult> GetGroupsStartingWith(string symbols)
         {
             var query = new GetGroupsListStartWith() { Symbols = symbols.ToUpper() };
+            var vm = await _mediator.Send(query);
+            return new JsonResult(vm) { StatusCode = Ok().StatusCode };
+        }
+        [HttpGet("teachers/{symbols}")]
+        public async Task<JsonResult> GetTeachersStartingWith(string symbols)
+        {
+            var query = new GetTeacherListStartsWith() { Symbols = symbols };
             var vm = await _mediator.Send(query);
             return new JsonResult(vm) { StatusCode = Ok().StatusCode };
         }

@@ -19,7 +19,7 @@ namespace Timetable.Persistance
         }
         public async static Task AddTimetable(ITimetableDbContext context)
         {
-            TimetableDbFiller filler = new TimetableDbFiller();
+            TimetableDbFiller filler = new ();
             var univ = await filler.RESHALA();
             context.Universities.Add(univ);
             await context.SaveChangesAsync(System.Threading.CancellationToken.None);

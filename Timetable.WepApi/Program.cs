@@ -30,7 +30,7 @@ namespace Timetable.WepApi
                 try
                 {
                     DbInitializer.Initialize(context);
-                    Thread.Sleep(100000); // –ешить трабл с этим
+                    Thread.Sleep(1000); // –ешить трабл с этим
                     TimetableScheduler.Start(service);
                 }
                 catch (Exception exception)

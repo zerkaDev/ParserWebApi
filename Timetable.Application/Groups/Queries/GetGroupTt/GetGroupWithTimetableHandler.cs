@@ -22,7 +22,8 @@ namespace Timetable.Application.Queries.Groups
             var group = await _dbContext.Groups.Include(e => e.Weeks)
                 .ThenInclude(e => e.OneDayTimetables)
                 .ThenInclude(e => e.Lessons.OrderBy(s => s.Number))
-                .FirstOrDefaultAsync(g => g.Name == request.Name);
+                .ThenInclude(e=>e.Teacher)
+                .FirstOrDefaultAsync(g => g.Name == request.Name, cancellationToken);
 
             if (group == null || group.Name != request.Name)
             {
@@ -30,9 +31,7 @@ namespace Timetable.Application.Queries.Groups
             }
 
             foreach (var week in group.Weeks)
-            { 
-                week.OrderByDay(); week.Group = null; 
-            }
+                week.OrderByDay();
 
             return _mapper.Map<GroupVm>(group);
         }

@@ -18,7 +18,7 @@ namespace Timetable.Application
 
         public TimetableParser()
         {
-            UriBuilder uriBuilder = new UriBuilder(BaseUrl);
+            UriBuilder uriBuilder = new (BaseUrl);
             var web = new HtmlWeb();
 
             Teachers = new List<Teacher>();
@@ -138,7 +138,7 @@ namespace Timetable.Application
                 var week = doc.DocumentNode.SelectSingleNode($"//div[@id='heading_n_{i}']");
                 if (week != null) weeksOfThisGroup.Add(new Week()
                 {
-                    Parity = RecursiveChildFinder(week) is "Нечетная неделя" ? true : false
+                    Parity = RecursiveChildFinder(week) is "Нечетная неделя"
                 });
             }
             if (weeksOfThisGroup.Count == 0)

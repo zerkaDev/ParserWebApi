@@ -18,8 +18,8 @@ namespace Timetable.Persistance.Jobs
             DateTime todayMidnight = DateTime.Today.AddHours(24);
 
             ITrigger trigger = TriggerBuilder.Create()  // создаем триггер
-                .WithIdentity("trigger1", "group1")  
-                //.StartAt(new DateTimeOffset(DateTime.Now.AddMinutes(15))) // идентифицируем триггер с именем и группой
+                .WithIdentity("trigger1", "group1")  // идентифицируем триггер с именем и группой
+              //.StartAt(new DateTimeOffset(DateTime.Now.AddMinutes(15))) 
                 .StartAt(new DateTimeOffset(todayMidnight))  // запуск каждую полночь
                 .WithSimpleSchedule(x => x            // настраиваем выполнение действия
                     .WithIntervalInHours(24)          // через сутки

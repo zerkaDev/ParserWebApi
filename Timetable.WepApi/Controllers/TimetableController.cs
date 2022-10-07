@@ -8,6 +8,7 @@ using Timetable.Application.Groups.Queries.GetGroupList;
 using Timetable.Application.Interfaces;
 using Timetable.Application.Queries.Groups;
 using Timetable.Application.Teachers.Queries.GetTeacherList;
+using Timetable.Application.Teachers.Queries.GetTeachersFromGroup;
 using Timetable.Application.Teachers.Queries.GetTeacherTt;
 using Timetable.Domain;
 using Timetable.Domain.DistinctComparers;
@@ -43,7 +44,15 @@ namespace Timetable.WepApi.Controllers
             var query = new GetTeacherTt() { TeacherFullName = fio };
             var vm = await _mediator.Send(query);
             return new JsonResult(vm) { StatusCode = Ok().StatusCode};
-            
+
+        }
+        [HttpGet("teachersOfGroup/{groupName}")]
+        public async Task<ActionResult<TeacherTtVm>> GetTeacherOfGroup(string groupName)
+        {
+            var query = new GetTeachersFromGroup() { GroupName = groupName };
+            var vm = await _mediator.Send(query);
+            return new JsonResult(vm) { StatusCode = Ok().StatusCode };
+
         }
         [HttpGet("{groupName}")]
         public async Task<ActionResult<GroupVm>> GetGroupTt(string groupName)

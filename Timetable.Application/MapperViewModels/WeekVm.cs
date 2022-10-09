@@ -11,6 +11,9 @@ namespace Timetable.Application.MapperViewModels
 {
     public class WeekVm : IMapWith<Week>
     {
+        /// <summary>
+        /// Returns true if odd, false if even
+        /// </summary>
         public bool Parity{ get; set; }
         public List<DayVm> DayVms { get; set; }
         public void Mapping(Profile profile)

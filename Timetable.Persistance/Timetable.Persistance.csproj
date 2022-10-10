@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Timetable.Application\Timetable.Application.csproj" />
     <ProjectReference Include="..\Timetable.Domain\Timetable.Domain.csproj" />
+    <ProjectReference Include="..\Timetable.Telegram.Informer\Timetable.Telegram.Informer.csproj" />
   </ItemGroup>
 
 </Project>

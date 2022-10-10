@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Timetable.Persistance\Timetable.Persistance.csproj" />
+    <ProjectReference Include="..\Timetable.Telegram.Informer\Timetable.Telegram.Informer.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Reflection;
+using Telegram.Informer;
 using Timetable.Application;
 using Timetable.Application.Common.Mappings;
 using Timetable.Application.Interfaces;
@@ -40,6 +41,7 @@ namespace Timetable.WepApi
                 options.UseSqlServer(Configuration.GetConnectionString("MsSqlServerConnectionString")));
             services.AddTransient<JobFactory>();
             services.AddScoped<TimetableUpdater>();
+            services.AddSingleton<TelegramBot>();
             services.AddSwaggerGen(config =>
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

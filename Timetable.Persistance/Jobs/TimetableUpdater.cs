@@ -19,11 +19,9 @@ namespace Timetable.Persistance.Jobs
         }
         public async Task Execute(IJobExecutionContext context)
         {
-            using (var scope = _serviceScopeFactory.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<ITimetableDbContext>();
-                await DbInitializer.AddTimetable(dbContext);
-            }
+            using var scope = _serviceScopeFactory.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ITimetableDbContext>();
+            await DbInitializer.AddTimetable(dbContext);
         }
     }
 }

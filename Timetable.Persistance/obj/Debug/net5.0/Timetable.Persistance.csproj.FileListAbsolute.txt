@@ -15,3 +15,5 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Debug\net5.0\
 C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Debug\net5.0\Timetable.Persistance.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Debug\net5.0\ref\Timetable.Persistance.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Debug\net5.0\Timetable.Persistance.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Debug\net5.0\Timetable.Telegram.Informer.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Debug\net5.0\Timetable.Telegram.Informer.pdb

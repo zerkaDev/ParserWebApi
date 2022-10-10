@@ -80,7 +80,7 @@ namespace Telegram.Informer
         {
             _reshalaStop = DateTime.Now;
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine($"[{DateTime.Now}] Решала закончил работу. Общее время выполнения - {(_reshalaStop - _reshalaStart).Seconds} секунд");
+            stringBuilder.AppendLine($"[{DateTime.Now}] Решала закончил работу. Общее время выполнения - {(_reshalaStop - _reshalaStart).ToString("m'm 's's'")} секунд");
             await _botClient.SendTextMessageAsync(InformationGroup, stringBuilder.ToString());
         }
         public async Task SendMessageAboutDbHasntValues()

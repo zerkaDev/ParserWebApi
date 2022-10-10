@@ -28,17 +28,14 @@ namespace Timetable.WepApi
             using(var scope = host.Services.CreateScope())
             {
                 var service = scope.ServiceProvider;
-                var context = service.GetRequiredService<ITimetableDbContext>();
-                var bot = service.GetRequiredService<TelegramBot>();
                 try
                 {
-                    await DbInitializer.Initialize(context, bot);
+                    await DbInitializer.Initialize(service);
                 }
                 catch (Exception exception)
                 {
-                    Log.Fatal(exception, "An error occurred while app initialization");
+                    Log.Fatal(exception, "An error occurred while dbinitializer fill db");
                 }
-                //Thread.Sleep(1000); // –ешить трабл с этим
                 TimetableScheduler.Start(service);
             }
 

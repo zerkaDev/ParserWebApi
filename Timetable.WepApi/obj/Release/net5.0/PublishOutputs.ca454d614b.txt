@@ -38,6 +38,7 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Sys
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\System.Runtime.Caching.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\System.Security.Cryptography.ProtectedData.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Telegram.Bot.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
@@ -53,6 +54,9 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\run
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Application.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Domain.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Persistance.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Telegram.Informer.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Persistance.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Telegram.Informer.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Application.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Domain.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.WepApi.xml

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Informer;
 using Timetable.Application;
@@ -9,18 +11,21 @@ namespace Timetable.Persistance
     public class DbInitializer
     {
         private static TelegramBot _bot;
-        public async static Task Initialize(ITimetableDbContext context, TelegramBot bot)
+        public async static Task Initialize(IServiceProvider service)
         {
-            _bot = bot;
+            var context = service.GetRequiredService<ITimetableDbContext>();
+            _bot = service.GetRequiredService<TelegramBot>();
+
             await _bot.SendMessageAboutDbInitializerStart();
+
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+
             await _bot.SendMessageAboutDbWasCreated();
-            if (!context.Universities.Any())
-            {
-                await _bot.SendMessageAboutDbHasntValues();
-                await AddTimetable(context);
-            }
+
+
+            await AddTimetable(context);
+
 
             await _bot.SendMessageAboutDbInitializerStops();
         }
@@ -30,7 +35,15 @@ namespace Timetable.Persistance
 
             TimetableDbFiller filler = new();
             var univ = await filler.RESHALA();
-            context.Universities.Add(univ);
+
+            if (!context.Universities.Any())
+            {
+                await _bot.SendMessageAboutDbHasntValues();
+                await context.Universities.AddAsync(univ);
+            }
+            else
+                context.Universities.Update(univ);
+
             await context.SaveChangesAsync(System.Threading.CancellationToken.None);
 
             await _bot.SendMessageAboutReshalaStopsWorking();

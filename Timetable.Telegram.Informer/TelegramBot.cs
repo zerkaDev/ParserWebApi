@@ -29,12 +29,15 @@ namespace Telegram.Informer
             var message = update.Message;
             if (message != null)
             {
-                if (message.From.Username.Contains("Soulje"))
+                if (message.From.FirstName.Contains("Soulje"))
                 {
                     await botClient.SendTextMessageAsync(message.Chat.Id, "Ну ты же попуск", cancellationToken: cancellationToken);
                     return;
                 }
-                await botClient.SendTextMessageAsync(message.Chat.Id, "Красавчик брат", cancellationToken: cancellationToken);
+                else if (message.From.FirstName == ".")
+                    await botClient.SendTextMessageAsync(message.Chat.Id, "мара брат че ты как сам", cancellationToken: cancellationToken);
+                else 
+                    await botClient.SendTextMessageAsync(message.Chat.Id, "Красавчик брат", cancellationToken: cancellationToken);
                 return;
             }
         }

@@ -10,9 +10,9 @@ namespace Timetable.Domain
    public class Course
     {
         /// <summary>
-        /// Идентификатор. [лучше через гуиды]
+        /// Идентификатор.
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Номер курса (1-6)
         /// </summary>
@@ -20,7 +20,7 @@ namespace Timetable.Domain
         /// <summary>
         /// Для EF Core [должен совпадать с айди находящимися на сайте университета]
         /// </summary>
-        public int InstituteId { get; set; } 
+        public Guid InstituteId { get; set; } 
         /// <summary>
         /// Ссылка на институт
         /// </summary>

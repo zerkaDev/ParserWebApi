@@ -8,7 +8,7 @@ namespace Timetable.Domain
 {
     public class Week
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Returns true if odd (нечетная), false if even (четная)
         /// </summary>

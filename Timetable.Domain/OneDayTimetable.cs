@@ -11,7 +11,7 @@ namespace Timetable.Domain
         /// <summary>
         /// Уникальный ид
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// День недели
         /// </summary>

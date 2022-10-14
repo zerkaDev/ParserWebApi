@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Timetable.Application.Interfaces;
 using Timetable.Domain;
 
-namespace Timetable.Parsers.KubSTU
+namespace Timetable.Parsers.KubSAU
 {
     public class KubSAUTimetableParser : ITimetableParser
     {
@@ -29,7 +29,8 @@ namespace Timetable.Parsers.KubSTU
         UriBuilder UriBuilder { get; }
         HtmlWeb HtmlWeb { get; }
         HtmlDocument LastRequestDocument { get; set; }
-        IEnumerable<string> groupNames;
+        IEnumerable<string> groupNames { get; set; }
+        ParserHelper ParserHelper { get; set; }
         Dictionary<string, string> NumberLessonsDict = new Dictionary<string, string>()
         {
             {
@@ -56,6 +57,7 @@ namespace Timetable.Parsers.KubSTU
             UriBuilder = new(BaseUrl);
             HtmlWeb = new();
             groupNames = new List<string>();
+            ParserHelper = new();
             FillGroupNames();
 
         }
@@ -68,63 +70,68 @@ namespace Timetable.Parsers.KubSTU
             var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
-                //ответ от сервера
                 var result = streamReader.ReadToEnd();
 
-                //Сериализация
                 Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(result);
                 groupNames = myDeserializedClass.suggestions.Select(x => x.value);
             }
         }
         public Task<List<Lesson>> GetLessonsOfThisDay(bool IsOddWeek, int dayNumber)
         {
-            IEnumerable<HtmlNode> daysOnWeek;
             var lessonsVm = new List<Lesson>();
 
-            if (IsOddWeek)
-                daysOnWeek = LastRequestDocument.DocumentNode
-                    .SelectSingleNode($"//div[@class='card card-sched schedule-first-week']")
-                        .ChildNodes.Where(node => node.Name == "div");
-            else
-                daysOnWeek = LastRequestDocument.DocumentNode
-                    .SelectSingleNode($"//div[@class='card card-sched schedule-second-week']")
-                        .ChildNodes.Where(node => node.Name == "div");
+            string xpath = "";
 
-            var lessons = daysOnWeek.ElementAt(dayNumber - 1)
-                .ChildNodes[3]
-                .ChildNodes[1]
-                .ChildNodes
-                .Where(n => n.Name == "tr");
+            if (IsOddWeek)
+                xpath = $"//div[@class='card card-sched schedule-first-week']";
+            else
+                xpath = $"//div[@class='card card-sched schedule-second-week']";
+
+            var lessons = LastRequestDocument.DocumentNode
+                    .SelectSingleNode(xpath)
+                    .ChildNodes.Where(node => node.Name == "div")
+                        .ElementAt(dayNumber - 1)
+                        .ChildNodes[3]
+                        .ChildNodes[1]
+                        .ChildNodes
+                        .Where(n => n.Name == "tr");
 
             foreach (var lesson in lessons)
             {
-                //try
-                //{
-                    var lessonName = lesson.ChildNodes[5].ChildNodes[0].InnerText.Trim();
-                    if (string.IsNullOrWhiteSpace(lessonName)) continue;
-                    var time = lesson.ChildNodes[1].InnerHtml.Replace("<br>", ":");
-                    var typeLesson = lesson.ChildNodes[3].Attributes[0].Value.Contains("yes") ? "Лекция" : "Практика";
+                var lessonName = lesson.ChildNodes[5].ChildNodes[0].InnerText.Trim();
+                if (string.IsNullOrWhiteSpace(lessonName)) continue;
+                var duration = lesson.ChildNodes[1].InnerHtml.Replace("<br>", ":");
+                var typeLesson = lesson.ChildNodes[3].Attributes[0].Value.Contains("yes") ? "Лекция" : "Практика";
 
-                    // Can return 2 teachers and string.Empty
-                    var teacherNameShort = lesson.ChildNodes[5].ChildNodes.FirstOrDefault(node => node.Name == "span").InnerText.Trim();
-                    var audience = lesson.ChildNodes[7].ChildNodes[1].InnerText;
-                    var numberLesson = NumberLessonsDict[time.Substring(0, 5)];
-                    lessonsVm.Add(
-                        new Lesson()
-                        {
-                            Audience = audience,
-                            LessonDuration = time,
-                            Name = lessonName,
-                            Number = numberLesson,
-                            TypeOfLesson = typeLesson
-                        });
-                //}
-                //catch(Exception ex)
-                //{
-                //    Console.WriteLine(ex.Message);
-                //}
+                // Can return 2 teachers and string.Empty
+                var teacherShortName = lesson.ChildNodes[5].ChildNodes.FirstOrDefault(node => node.Name == "span").InnerText.Trim();
+
+                var audience = lesson.ChildNodes[7].ChildNodes[1].InnerHtml.Contains("<br>") ?
+                    lesson.ChildNodes[7].ChildNodes[1].InnerHtml.Replace("<br>", ", ")
+                    :
+                    lesson.ChildNodes[7].ChildNodes[1].InnerText;
+
+                var numberLesson = NumberLessonsDict[duration.Substring(0, 5)];
+
+                if (string.IsNullOrWhiteSpace(teacherShortName))
+                    lessonsVm.Add(ParserHelper.CreateLesson(audience, duration, lessonName, numberLesson, typeLesson, null));
+                else if (teacherShortName.Contains(','))
+                {
+                    var teachers = teacherShortName.Split(',');
+                    foreach (var teacherSplittedName in teachers)
+                    {
+                        var teacher = ParserHelper.GetTeacherOrDefault(teacherSplittedName);
+                        var lessonDto = ParserHelper.CreateLesson(audience, duration, lessonName, numberLesson, typeLesson, teacher);
+                        lessonsVm.Add(lessonDto);
+                    }
+                }
+                else
+                {
+                    var teacher = ParserHelper.GetTeacherOrDefault(teacherShortName);
+                    var lessonDto = ParserHelper.CreateLesson(audience, duration, lessonName, numberLesson, typeLesson, teacher);
+                    lessonsVm.Add(lessonDto);
+                }
             }
-
             return Task.FromResult(lessonsVm);
         }
         public Task<List<OneDayTimetable>> GetAllDaysOfWeek(bool IsOddWeek)
@@ -156,7 +163,7 @@ namespace Timetable.Parsers.KubSTU
                         break;
                     }
                 }
-                if (!IsDayEmpty) days.Add(new OneDayTimetable() { Day = day.ChildNodes[1].InnerText.Substring(0, day.ChildNodes[1].InnerText.IndexOf('|') - 1) });
+                if (!IsDayEmpty) days.Add(ParserHelper.CreateDay(day.ChildNodes[1].InnerText.Substring(0, day.ChildNodes[1].InnerText.IndexOf('|') - 1)));
             }
             return Task.FromResult(days);
         }
@@ -173,8 +180,8 @@ namespace Timetable.Parsers.KubSTU
             return Task.FromResult(
                 new List<Week>()
                 {
-                    new Week() {Parity = false},
-                    new Week(){Parity=true}
+                    ParserHelper.CreateWeek(false),
+                    ParserHelper.CreateWeek(true)
                 });
         }
         public Task<List<Group>> GetAllGroupsOfCourse(int fak_id, int kurs)
@@ -192,12 +199,12 @@ namespace Timetable.Parsers.KubSTU
 
         public Task<List<Course>> GetAllCoursesOfInstitute()
         {
-            return Task.FromResult(new List<Course>() { new Course() { Number = 0 } });
+            return Task.FromResult(new List<Course>() { ParserHelper.CreateCourse(0) });
         }
         // TODO: Id !!!!
         public Task<List<Institute>> GetAllInstitutes()
         {
-            return Task.FromResult(new List<Institute>() { new Institute() { Name = "StandartInstitute", Id = 1337 } });
+            return Task.FromResult(new List<Institute>() { new Institute() { Name = "StandartInstitute", Id = 9999 } });
         }
     }
 }

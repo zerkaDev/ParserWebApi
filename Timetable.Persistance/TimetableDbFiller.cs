@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Timetable.Application.Interfaces;
 using Timetable.Domain;
 using Timetable.Domain.Comparers;
+using Timetable.Parsers.KubSAU;
 using Timetable.Parsers.KubSTU;
 
 namespace Timetable.Application
@@ -16,7 +17,7 @@ namespace Timetable.Application
         {
             Parsers = new List<ITimetableParser>();
             Parsers.Add(new KubSAUTimetableParser());
-            //Parsers.Add(new KubSTUTimetableParser());
+            Parsers.Add(new KubSTUTimetableParser());
         }
         public async Task<List<Universities>> RESHALA()
         {

@@ -5,15 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
-    <PackageReference Include="Quartz" Version="3.5.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.45" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Timetable.Application\Timetable.Application.csproj" />
     <ProjectReference Include="..\Timetable.Domain\Timetable.Domain.csproj" />
-    <ProjectReference Include="..\Timetable.Parsers\Timetable.Parsers.csproj" />
-    <ProjectReference Include="..\Timetable.Telegram.Informer\Timetable.Telegram.Informer.csproj" />
   </ItemGroup>
 
 </Project>

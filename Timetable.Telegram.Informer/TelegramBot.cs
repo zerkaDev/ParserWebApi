@@ -43,7 +43,9 @@ namespace Telegram.Informer
         }
         private Task Error(ITelegramBotClient arg1, Exception arg2, CancellationToken arg3)
         {
-            throw new Exception("Telegram bot exception; error method was called");
+            return _botClient.SendTextMessageAsync(InformationGroup, "я сломался(((((((");
+            
+            //throw new Exception("Telegram bot exception; error method was called");
         }
         #region Informational Messages
         private async void SendInfoAboutStarted()

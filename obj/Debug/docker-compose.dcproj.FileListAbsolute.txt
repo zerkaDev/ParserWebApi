@@ -20,7 +20,6 @@ C:\Users\User\source\repos\Timetable.Api\bin\Debug\Serilog.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\Serilog.Sinks.File.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\MediatR.Contracts.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\Timetable.Domain.dll
-C:\Users\User\source\repos\Timetable.Api\bin\Debug\HtmlAgilityPack.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\MediatR.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\Telegram.Bot.dll
 C:\Users\User\source\repos\Timetable.Api\bin\Debug\Microsoft.EntityFrameworkCore.Abstractions.dll

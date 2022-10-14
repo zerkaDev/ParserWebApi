@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Timetable.Application.Interfaces;
 using Timetable.Domain;
 
-namespace Timetable.Application
+namespace Timetable.Parsers.KubSTU
 {
-    public class TimetableParser
+    public class KubSTUTimetableParser : ITimetableParser
     {
+        public string UniversityName { get; } = "KubSTU";
         string BaseUrl { get; } = "https://elkaf.kubstu.ru/timetable/default/time-table-student-ofo";
         UriBuilder UriBuilder { get; }
         HtmlWeb HtmlWeb { get; }
@@ -16,14 +18,11 @@ namespace Timetable.Application
         // I think it is the normal way to store uniqal teacher in the parses-works time instead of use db context
         List<Teacher> Teachers { get; set; }
 
-        public TimetableParser()
+        public KubSTUTimetableParser()
         {
-            UriBuilder uriBuilder = new (BaseUrl);
-            var web = new HtmlWeb();
-
+            this.UriBuilder = new UriBuilder(BaseUrl);
+            HtmlWeb = new HtmlWeb();
             Teachers = new List<Teacher>();
-            UriBuilder = uriBuilder;
-            HtmlWeb = web;
         }
 
         // TODO : Разделяй и властвуй...

@@ -28,14 +28,14 @@ namespace Timetable.WepApi
             using(var scope = host.Services.CreateScope())
             {
                 var service = scope.ServiceProvider;
-                try
-                {
+                //try
+                //{
                     await DbInitializer.Initialize(service);
-                }
-                catch (Exception exception)
-                {
-                    Log.Fatal(exception, "An error occurred while dbinitializer fill db");
-                }
+                //}
+                //catch (Exception exception)
+                //{
+                //    Log.Fatal(exception, "An error occurred while dbinitializer fill db");
+                //}
                 TimetableScheduler.Start(service);
             }
 

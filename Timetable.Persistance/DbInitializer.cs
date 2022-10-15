@@ -22,10 +22,8 @@ namespace Timetable.Persistance
             context.Database.EnsureCreated();
 
             await _bot.SendMessageAboutDbWasCreated();
-
-
-            await AddTimetable(context);
-
+            if (context.Universities.Count() != 2)
+                await AddTimetable(context);
 
             await _bot.SendMessageAboutDbInitializerStops();
         }
@@ -34,15 +32,17 @@ namespace Timetable.Persistance
             await _bot.SendMessageAboutReshalaStartsWorking();
 
             TimetableDbFiller filler = new();
-            var univ = await filler.RESHALA();
+            var allUniversities = await filler.RESHALA();
 
-            if (!context.Universities.Any())
+
+            await _bot.SendMessageAboutDbHasntValues();
+            foreach (var univ in allUniversities)
             {
-                await _bot.SendMessageAboutDbHasntValues();
                 await context.Universities.AddAsync(univ);
             }
-            else
-                context.Universities.Update(univ);
+            //await context.Universities.AddRangeAsync(allUniversities);
+
+            //context.Universities.UpdateRange(allUniversities);
 
             await context.SaveChangesAsync(System.Threading.CancellationToken.None);
 

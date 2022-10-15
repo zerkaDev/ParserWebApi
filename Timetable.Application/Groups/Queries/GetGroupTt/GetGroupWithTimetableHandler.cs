@@ -19,16 +19,30 @@ namespace Timetable.Application.Queries.Groups
             IMapper mapper) => (_dbContext, _mapper) = (dbContext, mapper);
         public async Task<GroupVm> Handle(GetGroupWithTimetable request, CancellationToken cancellationToken)
         {
-            var group = await _dbContext.Groups.Include(e => e.Weeks)
-                .ThenInclude(e => e.OneDayTimetables)
-                .ThenInclude(e => e.Lessons.OrderBy(s => s.Number))
-                .ThenInclude(e=>e.Teacher)
+            var universitiy = await _dbContext.Universities
+                .FirstOrDefaultAsync(u => u.Name.ToLower() == request.University.ToLower());
+
+            if (universitiy is null) return null;
+
+            var group = await _dbContext.Groups
+                .Include(e => e.Course)
+                .ThenInclude(e => e.Institute)
+                .ThenInclude(e => e.University)
                 .FirstOrDefaultAsync(g => g.Name == request.Name, cancellationToken);
 
-            if (group == null || group.Name != request.Name)
+            // Некрасиво
+
+            if (group == null || group.Name != request.Name || group.Course.Institute.University.Name.ToLower() != request.University.ToLower())
             {
                 return null;
             }
+
+            group = await _dbContext.Groups.
+                Include(e => e.Weeks)
+                .ThenInclude(e => e.OneDayTimetables)
+                .ThenInclude(e => e.Lessons.OrderBy(s => s.Number))
+                .ThenInclude(e => e.Teacher)
+                .FirstOrDefaultAsync(g => g.Name == request.Name, cancellationToken);
 
             foreach (var week in group.Weeks)
                 week.OrderByDay();

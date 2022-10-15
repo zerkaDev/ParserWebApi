@@ -79,3 +79,5 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timet
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Debug\net5.0\Timetable.WepApi.genruntimeconfig.cache
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Timetable.Telegram.Informer.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Timetable.Telegram.Informer.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Timetable.Parsers.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Debug\net5.0\Timetable.Parsers.pdb

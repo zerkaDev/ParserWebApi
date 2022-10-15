@@ -1453,12 +1453,26 @@
           "Timetable.Domain.dll": {}
         }
       },
+      "Timetable.Parsers/1.0.0": {
+        "dependencies": {
+          "HtmlAgilityPack": "1.11.45",
+          "Timetable.Application": "1.0.0",
+          "Timetable.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Timetable.Parsers.dll": {}
+        },
+        "compile": {
+          "Timetable.Parsers.dll": {}
+        }
+      },
       "Timetable.Persistance/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "5.0.0",
           "Quartz": "3.5.0",
           "Timetable.Application": "1.0.0",
           "Timetable.Domain": "1.0.0",
+          "Timetable.Parsers": "1.0.0",
           "Timetable.Telegram.Informer": "1.0.0"
         },
         "runtime": {
@@ -3923,6 +3937,11 @@
       "sha512": ""
     },
     "Timetable.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Timetable.Parsers/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

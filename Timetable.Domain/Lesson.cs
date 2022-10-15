@@ -1,11 +1,13 @@
-﻿namespace Timetable.Domain
+﻿using System;
+
+namespace Timetable.Domain
 {
     public class Lesson
     {
         /// <summary>
         /// Уникальный ид пары
         /// </summary>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         /// <summary>
         /// Название предмета
         /// </summary>
@@ -25,13 +27,13 @@
         /// <summary>
         /// Преподователь
         /// </summary>
-        public int? TeacherId { get; set; }
+        public Guid? TeacherId { get; set; }
         public Teacher Teacher { get; set; }
         /// <summary>
         /// Аудитория
         /// </summary>
         public string Audience { get; set; }
-        public int OneDayTimetableId { get; set; }
+        public Guid OneDayTimetableId { get; set; }
         public OneDayTimetable OneDayTimetable { get; set; }
     }
 }

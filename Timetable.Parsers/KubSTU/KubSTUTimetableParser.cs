@@ -3,27 +3,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Timetable.Application.Interfaces;
 using Timetable.Domain;
 
-namespace Timetable.Application
+namespace Timetable.Parsers.KubSTU
 {
-    public class TimetableParser
+    public class KubSTUTimetableParser : ITimetableParser
     {
+        public string UniversityName { get; } = "KubSTU";
         string BaseUrl { get; } = "https://elkaf.kubstu.ru/timetable/default/time-table-student-ofo";
         UriBuilder UriBuilder { get; }
         HtmlWeb HtmlWeb { get; }
         HtmlDocument LastRequestDocument { get; set; }
         // I think it is the normal way to store uniqal teacher in the parses-works time instead of use db context
-        List<Teacher> Teachers { get; set; }
+        ParserHelper ParserHelper { get; set; }
 
-        public TimetableParser()
+        public KubSTUTimetableParser()
         {
-            UriBuilder uriBuilder = new (BaseUrl);
-            var web = new HtmlWeb();
-
-            Teachers = new List<Teacher>();
-            UriBuilder = uriBuilder;
-            HtmlWeb = web;
+            this.UriBuilder = new UriBuilder(BaseUrl);
+            HtmlWeb = new HtmlWeb();
+            ParserHelper = new ParserHelper();
         }
 
         // TODO : Разделяй и властвуй...
@@ -46,48 +45,29 @@ namespace Timetable.Application
                 var fullLessonName = RecursiveChildFinder(lesson);
 
                 var numberLesson = fullLessonName.Substring(0, 6);
-                var stringTimeLesson = fullLessonName.Substring(fullLessonName.IndexOf('(') + 1, fullLessonName.LastIndexOf(')') - fullLessonName.IndexOf('(') - 1);
+                var duration = fullLessonName.Substring(fullLessonName.IndexOf('(') + 1, fullLessonName.LastIndexOf(')') - fullLessonName.IndexOf('(') - 1);
                 var onlyName = fullLessonName.Substring(fullLessonName.IndexOf('/') + 2, fullLessonName.LastIndexOf('/') - fullLessonName.IndexOf('/') - 2);
                 var typeLesson = fullLessonName.Substring(fullLessonName.LastIndexOf('/') + 2, fullLessonName.Length - fullLessonName.LastIndexOf('/') - 2);
 
-                var divWhereInfoAboutLesson = lesson
-                   .ChildNodes[3]
-                   .ChildNodes[1]
-                   .ChildNodes
+                var divWhereInfoAboutLesson = lesson.ChildNodes[3].ChildNodes[1].ChildNodes
                    .Where(c => c.Name == "p");
 
                 var teacherName = divWhereInfoAboutLesson.ElementAt(0).InnerText.Replace("Преподаватель: ", "");
                 var audience = divWhereInfoAboutLesson.ElementAt(1).InnerText.Replace("Аудитория: ", "");
 
-                Domain.Teacher teacherModel;
+                Teacher teacherModel;
 
-                if (teacherName == "  ") 
+                if (string.IsNullOrWhiteSpace(teacherName)) 
                     teacherModel = null;
                 else
                 {
-                    teacherModel = Teachers.FirstOrDefault(t => t.FullName == teacherName);
-                    if (teacherModel is null) Teachers.Add(new Teacher()
-                    {
-                        FullName = teacherName,
-                        Lessons = new List<Lesson>()
-                    });
+                    teacherModel = ParserHelper.GetTeacherOrDefault(teacherName);
                 }
 
-                var oneLesson = new Lesson()
-                {
-                    Teacher = teacherModel,
-                    Audience = audience,
-                    Name = onlyName,
-                    Number = numberLesson,
-                    TypeOfLesson = typeLesson,
-                    LessonDuration = stringTimeLesson
-                };
+                var lessonDto = ParserHelper.CreateLesson(audience, duration, onlyName, numberLesson, typeLesson, teacherModel);
 
-                lessonsOfThisDay.Add(oneLesson);
-
-                if (teacherModel != null) teacherModel.Lessons.Add(oneLesson);
+                lessonsOfThisDay.Add(lessonDto);
             }
-
             return Task.FromResult(lessonsOfThisDay);
 
         }
@@ -114,10 +94,7 @@ namespace Timetable.Application
             foreach (var days in WeekDiv.ChildNodes.Where(d => d.Name is "div"))
             {
                 var nameOfDay = RecursiveChildFinder(days);
-                daysOfWeek.Add(new OneDayTimetable()
-                {
-                    Day = nameOfDay
-                });
+                daysOfWeek.Add(ParserHelper.CreateDay(nameOfDay));
             }
 
             return Task.FromResult(daysOfWeek);
@@ -136,10 +113,7 @@ namespace Timetable.Application
             for (int i = 1; i <= 2; i++)
             {
                 var week = doc.DocumentNode.SelectSingleNode($"//div[@id='heading_n_{i}']");
-                if (week != null) weeksOfThisGroup.Add(new Week()
-                {
-                    Parity = RecursiveChildFinder(week) is "Нечетная неделя"
-                });
+                if (week != null) weeksOfThisGroup.Add(ParserHelper.CreateWeek(RecursiveChildFinder(week) is "Нечетная неделя"));
             }
             if (weeksOfThisGroup.Count == 0)
                 return Task.FromResult(weeksOfThisGroup);
@@ -179,10 +153,7 @@ namespace Timetable.Application
 
             foreach (var course in allCoursesOfThisInstitute)
             {
-                courses.Add(new Course
-                {
-                    Number = int.Parse(course.InnerText)
-                });
+                courses.Add(ParserHelper.CreateCourse(int.Parse(course.InnerText)));
             }
 
             return Task.FromResult(courses);

@@ -102,18 +102,19 @@ namespace Timetable.WepApi.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// GET /api/timetable/20-КБ-ПИ2
+        /// GET /api/timetable/kubstu/20-КБ-ПИ2
         /// </remarks>
         /// <param name="groupName">Unique group id</param>
+        /// <param name="university">Unique university name</param>
         /// <returns>Group view model, contains weeks, which contains days, which contains lessons</returns>
         /// <response code="200">Success</response>
         /// <response code="204">Group not found</response>
-        [HttpGet("{groupName}")]
+        [HttpGet("{university}/{groupName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult<GroupVm>> GetGroupTt(string groupName)
+        public async Task<ActionResult<GroupVm>> GetGroupTt(string university, string groupName)
         {
-            var query = new GetGroupWithTimetable() { Name = groupName.ToUpper() };
+            var query = new GetGroupWithTimetable() { University = university, Name = groupName.ToUpper() };
             var vm = await _mediator.Send(query);
             if (vm is null) return NoContent();
             return new JsonResult(vm) { StatusCode = Ok().StatusCode };

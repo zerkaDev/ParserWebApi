@@ -22,7 +22,7 @@ namespace Timetable.Persistance
             context.Database.EnsureCreated();
 
             await _bot.SendMessageAboutDbWasCreated();
-            if (context.Universities.Count() != 1)
+            if (context.Universities.Count() != 2)
                 await AddTimetable(context);
 
             await _bot.SendMessageAboutDbInitializerStops();

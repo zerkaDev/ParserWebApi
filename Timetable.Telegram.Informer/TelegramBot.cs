@@ -29,16 +29,6 @@ namespace Telegram.Informer
             var message = update.Message;
             if (message != null)
             {
-                if (message.From.FirstName.Contains("Soulje"))
-                {
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "Ну ты же попуск", cancellationToken: cancellationToken);
-                    return;
-                }
-                else if (message.From.FirstName == ".")
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "мара брат че ты как сам", cancellationToken: cancellationToken);
-                else 
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "Красавчик брат", cancellationToken: cancellationToken);
-                return;
             }
         }
         private Task Error(ITelegramBotClient arg1, Exception arg2, CancellationToken arg3)

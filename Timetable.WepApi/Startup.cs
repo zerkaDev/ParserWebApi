@@ -38,7 +38,7 @@ namespace Timetable.WepApi
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
             services.AddScoped<ITimetableRepository, TimetableRepository>();
             services.AddDbContext<ITimetableDbContext, TimetableDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MsSqlServerConnectionString")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
             services.AddTransient<JobFactory>();
             services.AddScoped<TimetableUpdater>();
             services.AddSingleton<TelegramBot>();

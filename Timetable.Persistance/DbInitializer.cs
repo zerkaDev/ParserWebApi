@@ -19,7 +19,7 @@ namespace Timetable.Persistance
 
             await _bot.SendMessageAboutDbInitializerStart();
 
-            //context.Database.EnsureDeleted();
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             await _bot.SendMessageAboutDbWasCreated();

@@ -14,7 +14,7 @@ namespace Timetable.Persistance.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Universities> builder)
         {
             builder.HasKey(k => k.Name);
-            builder.HasMany(i => i.Institutes).WithOne(u => u.University);
+            builder.HasMany(i => i.Institutes).WithOne(u => u.University).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

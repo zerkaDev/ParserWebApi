@@ -28,12 +28,14 @@ namespace Timetable.WepApi.Controllers
         /// GET /api/timetable/groups/22-К
         /// </remarks>
         /// <param name="symbols">Symbols</param>
+        /// <param name="university">Unique university name</param>
         /// <returns>List groups id's</returns>
-        [HttpGet("groups/{symbols}")]
+        [HttpGet("{university}/groups/{symbols}")]
+        [HttpGet("{university}/groups")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<JsonResult> GetGroupsStartingWith(string symbols)
+        public async Task<JsonResult> GetGroupsStartingWith(string university, string symbols)
         {
-            var query = new GetGroupsListStartWith() { Symbols = symbols.ToUpper() };
+            var query = new GetGroupsListStartWith() { Symbols = symbols?.ToUpper(), UniversityName = university };
             var vm = await _mediator.Send(query);
             return new JsonResult(vm) { StatusCode = Ok().StatusCode };
         }
@@ -108,7 +110,7 @@ namespace Timetable.WepApi.Controllers
         /// <param name="university">Unique university name</param>
         /// <returns>Group view model, contains weeks, which contains days, which contains lessons</returns>
         /// <response code="200">Success</response>
-        /// <response code="204">Group not found</response>
+        /// <response code="204">Group or university not found</response>
         [HttpGet("{university}/{groupName}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

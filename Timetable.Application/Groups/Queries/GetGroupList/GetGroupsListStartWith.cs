@@ -9,6 +9,7 @@ namespace Timetable.Application.Groups.Queries.GetGroupList
 {
     public class GetGroupsListStartWith : IRequest<GroupsListStartWithVm>
     {
+        public string UniversityName { get; set; }
         public string Symbols { get; set; }
     }
 }

@@ -53,10 +53,12 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\run
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Application.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Domain.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Parsers.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Persistance.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Telegram.Informer.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Persistance.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Telegram.Informer.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Application.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Domain.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.Parsers.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Docker\publish\Timetable.WepApi.xml

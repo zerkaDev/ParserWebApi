@@ -14,8 +14,8 @@ namespace Timetable.Persistance.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Group> builder)
         {
             builder.HasKey(k => k.Name);
-            builder.HasOne(c => c.Course).WithMany(g => g.Groups);
-            builder.HasMany(w=>w.Weeks).WithOne(g=>g.Group);
+            builder.HasOne(c => c.Course).WithMany(g => g.Groups).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(w=>w.Weeks).WithOne(g=>g.Group).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

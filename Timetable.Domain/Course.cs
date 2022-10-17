@@ -20,7 +20,7 @@ namespace Timetable.Domain
         /// <summary>
         /// Для EF Core [должен совпадать с айди находящимися на сайте университета]
         /// </summary>
-        public Guid InstituteId { get; set; } 
+        public int InstituteId { get; set; } 
         /// <summary>
         /// Ссылка на институт
         /// </summary>

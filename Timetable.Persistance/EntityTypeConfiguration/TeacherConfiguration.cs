@@ -9,7 +9,7 @@ namespace Timetable.Persistance.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Teacher> builder)
         {
             builder.HasKey(t=>t.Id);
-            builder.HasMany(l => l.Lessons).WithOne(t => t.Teacher);
+            builder.HasMany(l => l.Lessons).WithOne(t => t.Teacher).IsRequired(false);
         }
     }
 }

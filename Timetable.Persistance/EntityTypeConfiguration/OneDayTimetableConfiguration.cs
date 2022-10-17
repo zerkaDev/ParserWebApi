@@ -9,8 +9,8 @@ namespace Timetable.Persistance.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<OneDayTimetable> builder)
         {
             builder.HasKey(k => k.Id);
-            builder.HasOne(f => f.Week).WithMany(g => g.OneDayTimetables);
-            builder.HasMany(l => l.Lessons).WithOne(o => o.OneDayTimetable);
+            builder.HasOne(f => f.Week).WithMany(g => g.OneDayTimetables).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(l => l.Lessons).WithOne(o => o.OneDayTimetable).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

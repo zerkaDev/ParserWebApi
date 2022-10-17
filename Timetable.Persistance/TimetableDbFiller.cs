@@ -15,9 +15,11 @@ namespace Timetable.Application
         List<ITimetableParser> Parsers { get; }
         public TimetableDbFiller()
         {
-            Parsers = new List<ITimetableParser>();
-            Parsers.Add(new KubSAUTimetableParser());
-            Parsers.Add(new KubSTUTimetableParser());
+            Parsers = new List<ITimetableParser>
+            {
+                new KubSAUTimetableParser(),
+                new KubSTUTimetableParser()
+            };
         }
         public async Task<List<Universities>> RESHALA()
         {

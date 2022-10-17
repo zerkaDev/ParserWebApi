@@ -21,7 +21,7 @@ namespace Timetable.Persistance.Jobs
         {
             using var scope = _serviceScopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<ITimetableDbContext>();
-            await DbInitializer.AddTimetable(dbContext);
+            await DbInitializer.UpdateTimetable(dbContext);
         }
     }
 }

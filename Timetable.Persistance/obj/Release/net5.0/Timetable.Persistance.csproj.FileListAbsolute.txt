@@ -17,3 +17,5 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.
 C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\obj\Release\net5.0\Timetable.Persistance.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Telegram.Informer.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Telegram.Informer.pdb
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Parsers.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.Persistance\bin\Release\net5.0\Timetable.Parsers.pdb

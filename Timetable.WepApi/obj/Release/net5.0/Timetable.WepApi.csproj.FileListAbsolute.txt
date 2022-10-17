@@ -79,3 +79,5 @@ C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Release\net5.0\Tel
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Release\net5.0\Timetable.Telegram.Informer.dll
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Release\net5.0\Timetable.Telegram.Informer.pdb
 C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\obj\Release\net5.0\Timetable.WepApi.xml
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Release\net5.0\Timetable.Parsers.dll
+C:\Users\User\source\repos\Timetable.Api\Timetable.WepApi\bin\Release\net5.0\Timetable.Parsers.pdb

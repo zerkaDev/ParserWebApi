@@ -45,8 +45,8 @@ namespace Timetable.Parsers.KubSTU
                 var fullLessonName = RecursiveChildFinder(lesson);
 
                 var numberLesson = fullLessonName.Substring(0, 6);
-                var duration = fullLessonName.Substring(fullLessonName.IndexOf('(') + 1, fullLessonName.LastIndexOf(')') - fullLessonName.IndexOf('(') - 1);
-                var onlyName = fullLessonName.Substring(fullLessonName.IndexOf('/') + 2, fullLessonName.LastIndexOf('/') - fullLessonName.IndexOf('/') - 2);
+                var duration = fullLessonName.Substring(fullLessonName.IndexOf('(') + 1, fullLessonName.IndexOf('/') - fullLessonName.IndexOf('(') - 3);
+                var onlyName = fullLessonName.Substring(fullLessonName.IndexOf('/') + 2, fullLessonName.LastIndexOf('/') - fullLessonName.IndexOf('/') - 3);
                 var typeLesson = fullLessonName.Substring(fullLessonName.LastIndexOf('/') + 2, fullLessonName.Length - fullLessonName.LastIndexOf('/') - 2);
 
                 var divWhereInfoAboutLesson = lesson.ChildNodes[3].ChildNodes[1].ChildNodes

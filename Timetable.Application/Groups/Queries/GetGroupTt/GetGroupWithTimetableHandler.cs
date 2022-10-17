@@ -38,7 +38,7 @@ namespace Timetable.Application.Queries.Groups
             }
 
             group = await _dbContext.Groups.
-                Include(e => e.Weeks)
+                Include(e => e.Weeks.OrderBy(s=>s.Parity))
                 .ThenInclude(e => e.OneDayTimetables)
                 .ThenInclude(e => e.Lessons.OrderBy(s => s.Number))
                 .ThenInclude(e => e.Teacher)

@@ -9,7 +9,7 @@ namespace Timetable.Persistance.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<Institute> builder)
         {
             builder.HasKey(k => k.Id);
-            builder.HasMany(c => c.Courses).WithOne(i => i.Institute);
+            builder.HasMany(c => c.Courses).WithOne(i => i.Institute).OnDelete(DeleteBehavior.Cascade);
             builder.Property(i => i.Id).ValueGeneratedNever();
         }
     }

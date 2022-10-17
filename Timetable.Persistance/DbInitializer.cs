@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,15 +35,36 @@ namespace Timetable.Persistance
             TimetableDbFiller filler = new();
             var allUniversities = await filler.RESHALA();
 
-
             await _bot.SendMessageAboutDbHasntValues();
+
+            foreach (var univ in allUniversities)
+                await context.Universities.AddAsync(univ);
+
+            await context.SaveChangesAsync(System.Threading.CancellationToken.None);
+
+            await _bot.SendMessageAboutReshalaStopsWorking();
+        }
+        public async static Task UpdateTimetable(ITimetableDbContext context)
+        {
+            await _bot.SendMessageAboutReshalaStartsWorking();
+
+            TimetableDbFiller filler = new();
+            var allUniversities = await filler.RESHALA();
+
+
             foreach (var univ in allUniversities)
             {
+                var univEntity = context.Universities
+                    .FirstOrDefault(e => e.Name == univ.Name);
+
+                if (univEntity != null)
+                {
+                    context.Universities.Remove(univEntity);
+                    await context.SaveChangesAsync(System.Threading.CancellationToken.None);
+                }
+
                 await context.Universities.AddAsync(univ);
             }
-            //await context.Universities.AddRangeAsync(allUniversities);
-
-            //context.Universities.UpdateRange(allUniversities);
 
             await context.SaveChangesAsync(System.Threading.CancellationToken.None);
 

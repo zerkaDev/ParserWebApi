@@ -2,7 +2,6 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,7 @@ namespace Timetable.Application.Groups.Queries.GetGroupList
     public class GetGroupsListStartWithHandler
         : IRequestHandler<GetGroupsListStartWith, GroupsListStartWithVm>
     {
-    
+
         private readonly ITimetableDbContext _dbContext;
         private readonly IMapper _mapper;
         public GetGroupsListStartWithHandler(ITimetableDbContext dbContext,
@@ -21,8 +20,17 @@ namespace Timetable.Application.Groups.Queries.GetGroupList
 
         public async Task<GroupsListStartWithVm> Handle(GetGroupsListStartWith request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrWhiteSpace(request.Symbols))
+                return new GroupsListStartWithVm
+                {
+                    Groups = await _dbContext.Groups
+                .Where(g => g.Course.Institute.University.Name.ToLower() == request.UniversityName.ToLower())
+                .ProjectTo<GroupLookupDto>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken)
+                };
+
             var groupsStartWithSymblog = await _dbContext.Groups
-                .Where(g => g.Name.StartsWith(request.Symbols))
+                .Where(g => g.Name.StartsWith(request.Symbols) && g.Course.Institute.University.Name.ToLower() == request.UniversityName.ToLower())
                 .ProjectTo<GroupLookupDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
